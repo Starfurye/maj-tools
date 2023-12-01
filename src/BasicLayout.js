@@ -11,6 +11,9 @@ import {
     Checkbox,
     Select,
 } from "antd";
+import { changeExceptionVoices } from "./utils/utils";
+import { URL_PREFIX } from "./consts";
+
 const { Header, Footer, Content } = Layout;
 const { Option } = Select;
 const headerStyle = {
@@ -41,8 +44,6 @@ const formItemLayout = {
         span: 14,
     },
 };
-
-const URL_PREFIX = "https://game.maj-soul.com/1/v0.10.1.w/audio/sound";
 
 let audioElements = [];
 
@@ -109,6 +110,12 @@ const onFinish = (values) => {
             `${URL_PREFIX}/${values.janshi}/${values["checkbox-group-result"]}.mp3`
         );
     }
+
+    // 一姬的立直报番为fan_rich而不是一般的fan_liqi
+    // 一姬的自摸报番为fan_tumo而不是一般的fan_zimo
+    changeExceptionVoices(audioUrls, "yiji", "fan_liqi", "fan_rich");
+    changeExceptionVoices(audioUrls, "yiji", "fan_zimo", "fan_tumo");
+
     playAudios(audioUrls);
 };
 
