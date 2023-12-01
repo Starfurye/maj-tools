@@ -57,6 +57,12 @@ const playAudio = (index) => {
             // 当前音频播放结束后，播放下一个音频
             playAudio(index + 1);
         });
+
+        // iOS设备上，由于限制，必须通过用户交互来触发播放
+        // document.body.addEventListener("click", function () {
+        //     audioElements[index].play();
+        //     document.body.removeEventListener("click", arguments.callee);
+        // });
     } else {
         console.log("All audio elements have been played.");
     }
@@ -94,9 +100,15 @@ const onFinish = (values) => {
             key !== "checkbox-group-result" &&
             value
         ) {
-            value.forEach((item) => {
-                audioUrls.push(`${URL_PREFIX}/${values.janshi}/${item}.mp3`);
-            });
+            if (Array.isArray(value)) {
+                value.forEach((item) => {
+                    audioUrls.push(
+                        `${URL_PREFIX}/${values.janshi}/${item}.mp3`
+                    );
+                });
+            } else {
+                audioUrls.push(`${URL_PREFIX}/${values.janshi}/${value}.mp3`);
+            }
         }
     }
     // 保证在末位
@@ -120,6 +132,9 @@ const onFinish = (values) => {
 };
 
 export default class BasicLayout extends Component {
+    // handleBtnClick = () => {
+    //     console.log("clicked");
+    // };
     render() {
         return (
             <Space
@@ -965,6 +980,7 @@ export default class BasicLayout extends Component {
                                         <Button
                                             type="primary"
                                             htmlType="submit"
+                                            onClick={this.handleBtnClick}
                                         >
                                             报番
                                         </Button>
