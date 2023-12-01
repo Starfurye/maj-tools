@@ -175,9 +175,13 @@ export default class BasicLayout extends Component {
                                         <Option value="beijianshahezi">
                                             北见纱和子
                                         </Option>
+                                        <Option value="wushilanyangcai">
+                                            五十岚阳菜
+                                        </Option>
                                         <Option value="ailisha">艾丽莎</Option>
                                         <Option value="fuji">福姬</Option>
                                         <Option value="akagi">赤木茂</Option>
+                                        <Option value="washizu">鹫巢岩</Option>
                                     </Select>
                                 </Form.Item>
                                 <Form.Item name="agari" label="和牌形式">
