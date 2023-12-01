@@ -11,8 +11,8 @@ import {
     Checkbox,
     Select,
 } from "antd";
-import { changeExceptionVoices } from "./utils/utils";
-import { URL_PREFIX } from "./consts";
+import { changeExceptionVoices } from "../utils/utils";
+import { URL_PREFIX } from "../consts";
 
 const { Header, Footer, Content } = Layout;
 const { Option } = Select;
@@ -101,9 +101,9 @@ const onFinish = (values) => {
     }
     // 保证在末位
     if (values["checkbox-group-dora"]) {
-        audioUrls.push(
-            `${URL_PREFIX}/${values.janshi}/${values["checkbox-group-dora"][0]}.mp3`
-        );
+        values["checkbox-group-dora"].forEach((item) => {
+            audioUrls.push(`${URL_PREFIX}/${values.janshi}/${item}.mp3`);
+        });
     }
     if (values["checkbox-group-result"]) {
         audioUrls.push(
@@ -112,8 +112,8 @@ const onFinish = (values) => {
     }
 
     // 一姬的立直报番为fan_rich而不是一般的fan_liqi
-    // 一姬的自摸报番为fan_tumo而不是一般的fan_zimo
     changeExceptionVoices(audioUrls, "yiji", "fan_liqi", "fan_rich");
+    // 一姬的自摸报番为fan_tumo而不是一般的fan_zimo
     changeExceptionVoices(audioUrls, "yiji", "fan_zimo", "fan_tumo");
 
     playAudios(audioUrls);
@@ -158,11 +158,9 @@ export default class BasicLayout extends Component {
                                             九条璃雨
                                         </Option>
                                         <Option value="beijianshahezi">
-                                            <Option value="ailisha">
-                                                艾丽莎
-                                            </Option>
                                             北见纱和子
                                         </Option>
+                                        <Option value="ailisha">艾丽莎</Option>
                                         <Option value="fuji">福姬</Option>
                                         <Option value="akagi">赤木茂</Option>
                                     </Select>
@@ -367,6 +365,16 @@ export default class BasicLayout extends Component {
                                             </Col>
                                             <Col>
                                                 <Checkbox
+                                                    value="fan_pinghu"
+                                                    style={{
+                                                        lineHeight: "32px",
+                                                    }}
+                                                >
+                                                    平和
+                                                </Checkbox>
+                                            </Col>
+                                            <Col>
+                                                <Checkbox
                                                     value="fan_duanyao"
                                                     style={{
                                                         lineHeight: "32px",
@@ -383,16 +391,6 @@ export default class BasicLayout extends Component {
                                                     }}
                                                 >
                                                     一杯口
-                                                </Checkbox>
-                                            </Col>
-                                            <Col>
-                                                <Checkbox
-                                                    value="fan_pinghu"
-                                                    style={{
-                                                        lineHeight: "32px",
-                                                    }}
-                                                >
-                                                    平和
                                                 </Checkbox>
                                             </Col>
                                         </Row>
@@ -889,17 +887,6 @@ export default class BasicLayout extends Component {
                                                     纯正九莲宝灯
                                                 </Checkbox>
                                             </Col>
-
-                                            <Col>
-                                                <Checkbox
-                                                    value="gameend_leijiyiman"
-                                                    style={{
-                                                        lineHeight: "32px",
-                                                    }}
-                                                >
-                                                    累计役满
-                                                </Checkbox>
-                                            </Col>
                                         </Row>
                                     </Checkbox.Group>
                                 </Form.Item>
@@ -923,6 +910,9 @@ export default class BasicLayout extends Component {
                                         </Radio.Button>
                                         <Radio.Button value="gameend_yiman1">
                                             役满
+                                        </Radio.Button>
+                                        <Radio.Button value="gameend_leijiyiman">
+                                            累计役满
                                         </Radio.Button>
                                         <Radio.Button value="gameend_yiman2">
                                             两倍役满
